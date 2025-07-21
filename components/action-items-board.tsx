@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { DragDropContext, type DropResult, Draggable, Droppable } from "react-beautiful-dnd"
-import { Plus, Search, Filter, ChevronDown } from "lucide-react"
+import { Plus, Search, Filter } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -11,7 +11,6 @@ import { ActionItem } from "@/components/action-item"
 import { TaskDetailsModal } from "@/components/task-details-modal"
 import { CreateTaskModal } from "@/components/create-task-modal"
 import { useNotifications } from "@/hooks/use-notifications"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 export function ActionItemsBoard() {
   const { actionItems, updateActionItem, removeActionItem } = useNotifications()
@@ -81,11 +80,6 @@ export function ActionItemsBoard() {
     setIsCreateModalOpen(true)
   }
 
-  const handleScheduleFollowUp = () => {
-    setCreateModalType("followup")
-    setIsCreateModalOpen(true)
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white p-6">
       {/* Header */}
@@ -96,35 +90,13 @@ export function ActionItemsBoard() {
         </div>
         <div className="flex items-center gap-2">
           {/* Enhanced Create Button with Animation */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none px-8 py-3 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 min-w-[160px] group">
-                <Plus className="h-5 w-5 mr-3 transition-transform duration-300 group-hover:rotate-90" />
-                Create
-                <ChevronDown className="h-4 w-4 ml-3 transition-transform duration-300 group-hover:rotate-180" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64 p-2">
-              <DropdownMenuItem
-                onClick={handleCreateTask}
-                className="p-3 cursor-pointer hover:bg-purple-50 rounded-md transition-colors duration-200"
-              >
-                <div className="flex flex-col">
-                  <span className="font-medium text-slate-800">Create Task</span>
-                  <span className="text-xs text-slate-500 mt-1">Add a general action item</span>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={handleScheduleFollowUp}
-                className="p-3 cursor-pointer hover:bg-blue-50 rounded-md transition-colors duration-200"
-              >
-                <div className="flex flex-col">
-                  <span className="font-medium text-slate-800">Schedule Application Follow Up</span>
-                  <span className="text-xs text-slate-500 mt-1">Follow up on a specific application</span>
-                </div>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button
+            onClick={handleCreateTask}
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none px-8 py-3 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 min-w-[160px] group"
+          >
+            <Plus className="h-5 w-5 mr-3 transition-transform duration-300 group-hover:rotate-90" />
+            Create Task
+          </Button>
         </div>
       </div>
 
