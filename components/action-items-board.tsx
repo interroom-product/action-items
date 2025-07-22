@@ -111,7 +111,10 @@ export function ActionItemsBoard() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <Button variant="outline" className="text-slate-600 hover:text-slate-900 hover:bg-slate-100 border-slate-200">
+        <Button
+          variant="outline"
+          className="text-slate-600 hover:text-slate-900 hover:bg-slate-100 border-slate-200 bg-transparent"
+        >
           <Filter className="h-4 w-4 mr-2" />
           All filters
         </Button>
@@ -119,7 +122,7 @@ export function ActionItemsBoard() {
 
       {/* Kanban Board */}
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Object.entries(columns).map(([columnId, items]) => (
             <div key={columnId} className="space-y-4">
               {/* Column Header */}

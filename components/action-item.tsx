@@ -3,9 +3,10 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Trash2, Clock, Calendar, Briefcase, AlertTriangle } from "lucide-react"
+import { Trash2, Clock, Calendar, Briefcase, AlertTriangle, Check } from "lucide-react"
 import { useNotifications } from "@/hooks/use-notifications"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 
 export interface ActionItemProps {
   id: string
@@ -56,7 +57,7 @@ export function ActionItem({
       case "Medium":
         return <Badge className="bg-amber-100 text-amber-700 border-amber-200 font-medium">Medium</Badge>
       case "Low":
-        return <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 font-medium">Low</Badge>
+        return <Badge className="bg-blue-100 text-blue-800 border-blue-200 font-medium">Low</Badge>
       default:
         return <Badge className="bg-slate-100 text-slate-700 border-slate-200 font-medium">Unknown</Badge>
     }
@@ -109,14 +110,11 @@ export function ActionItem({
               </p>
             )}
           </div>
-          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="flex items-center gap-2 transition-opacity">
             {status !== "Completed" && (
-              <button
-                onClick={handleMarkComplete}
-                className="text-xs text-slate-500 hover:text-purple-600 transition-colors"
-              >
-                Mark done
-              </button>
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={handleMarkComplete}>
+                <Check className="h-4 w-4" />
+              </Button>
             )}
             {onDelete && (
               <button onClick={handleDelete} className="text-xs text-slate-500 hover:text-red-600 transition-colors">
