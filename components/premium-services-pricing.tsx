@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Crown, Star, Check, ArrowRight } from "lucide-react"
+import { Star, Check, ArrowRight, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -11,46 +11,40 @@ const individualServices = [
   {
     id: "job-applications",
     title: "Job Application Outsourcing",
-    description: "Let our experts handle your job applications while you focus on interview preparation",
+    description:
+      "Do you really want to spend hours on job applications every week? Let us handle the search while you focus on something more productive—or just more fun. Track progress via your client portal.",
     price: "$297",
     popular: true,
     features: [
-      "50+ job applications per week",
-      "Personalized cover letters",
-      "Application tracking & reporting",
-      "Weekly progress updates",
-      "ATS-optimized applications",
-      "Industry-specific targeting",
+      "Targeted job search based on your preferences and skills",
+      "Application submission to both listed and unlisted roles",
+      "Weekly updates on application status and new opportunities",
     ],
   },
   {
     id: "resume-linkedin",
     title: "Resume & LinkedIn Optimization",
-    description: "Professional rewrite by industry experts to maximize your visibility",
+    description:
+      "AI can optimize, but humans get you hired. We mix smart tech with real expertise to sharpen your resume, beat the bots, and grab recruiters' attention.",
     price: "$197",
     popular: false,
     features: [
-      "Complete resume rewrite",
-      "LinkedIn profile optimization",
-      "ATS compatibility check",
-      "Industry keyword optimization",
-      "Professional formatting",
-      "2 rounds of revisions",
+      "ATS optimization to ensure your resume passes automated filters",
+      "Achievement-focused content that highlights your impact",
+      "LinkedIn profile enhancement to attract recruiters",
     ],
   },
   {
     id: "career-coaching",
     title: "Career Coaching",
-    description: "1-on-1 sessions with senior career coaches to accelerate your search",
+    description:
+      "The right prep changes everything. With a dedicated team in your corner, we tailor coaching to your needs so you can land the best offer possible.",
     price: "$397",
     popular: false,
     features: [
-      "4 x 1-hour coaching sessions",
-      "Personalized job search strategy",
-      "Interview preparation & practice",
-      "Salary negotiation guidance",
-      "Career transition planning",
-      "Ongoing email support",
+      "Mock interviews with industry-specific questions",
+      "Weekly check-ins to track progress and adjust strategy",
+      "Salary negotiation support to maximize your compensation",
     ],
   },
 ]
@@ -59,36 +53,41 @@ const bundles = [
   {
     id: "accelerator",
     title: "Accelerator Bundle",
-    description: "Perfect combination of application outsourcing and profile optimization",
+    badge: "Pay as you go",
+    badgeColor: "green",
     price: "$447",
-    originalPrice: "$494",
-    savings: "$47",
-    popular: true,
+    popular: false,
+    services: [
+      { name: "Job Outsourcing", included: true },
+      { name: "Resume Rewrite and LinkedIn Optimization", included: true },
+      { name: "InterRoom Chat Support", included: true },
+      { name: "Interview Coaching", included: false },
+    ],
     features: [
-      "Job Application Outsourcing (50+ apps/week)",
-      "Resume & LinkedIn Optimization",
-      "Priority support",
-      "Weekly strategy calls",
-      "Application performance analytics",
-      "3-month job search guarantee",
+      "Targeted job search based on your preferences and skills",
+      "Application submission to both listed and unlisted roles",
+      "Weekly updates on application status and new opportunities",
     ],
   },
   {
-    id: "full-service",
-    title: "Full Service Bundle",
-    description: "Complete job search solution with all premium services included",
+    id: "full-support",
+    title: "Full Support Package",
+    badge: "Success-Based Model",
+    badgeColor: "purple",
     price: "$697",
-    originalPrice: "$891",
-    savings: "$194",
-    popular: false,
+    popular: true,
+    recommended: true,
+    services: [
+      { name: "Job Outsourcing", included: true },
+      { name: "Resume Rewrite and LinkedIn Optimization", included: true },
+      { name: "InterRoom Chat Support", included: true },
+      { name: "Interview Coaching", included: true },
+    ],
     features: [
       "Everything in Accelerator Bundle",
-      "Career Coaching (4 sessions)",
-      "Interview preparation workshops",
-      "Salary negotiation support",
-      "Personal brand development",
-      "6-month success guarantee",
-      "Dedicated account manager",
+      "Mock interviews with industry-specific questions",
+      "Weekly check-ins to track progress and adjust strategy",
+      "Salary negotiation support to maximize your compensation",
     ],
   },
 ]
@@ -168,7 +167,7 @@ export function PremiumServicesPricing() {
                   <ul className="space-y-3 mb-8">
                     {service.features.map((feature, index) => (
                       <li key={index} className="flex items-start text-sm">
-                        <Check className="h-4 w-4 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                        <span className="text-purple-600 font-bold mr-3 mt-0.5 flex-shrink-0">{index + 1}</span>
                         <span className="text-slate-600">{feature}</span>
                       </li>
                     ))}
@@ -201,54 +200,59 @@ export function PremiumServicesPricing() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {bundles.map((bundle) => (
               <Card
                 key={bundle.id}
-                className={`relative cursor-pointer transition-all duration-200 hover:shadow-lg ${
-                  bundle.popular
-                    ? "border-2 border-purple-300 shadow-lg"
-                    : "border border-slate-200 hover:border-slate-300"
-                }`}
+                className={`relative cursor-pointer transition-all duration-200 hover:shadow-lg border border-slate-200 hover:border-slate-300`}
                 onClick={() => handleServiceClick(bundle)}
               >
-                {bundle.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <Badge className="bg-purple-600 text-white px-3 py-1">
-                      <Star className="h-3 w-3 mr-1" />
-                      POPULAR
-                    </Badge>
+                {/* Recommended Badge */}
+                {bundle.recommended && (
+                  <div className="absolute -top-3 right-4">
+                    <Badge className="bg-purple-600 text-white px-3 py-1 text-xs font-semibold">RECOMMENDED</Badge>
                   </div>
                 )}
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-xl font-bold text-slate-900">{bundle.title}</h3>
-                    <Crown className="h-6 w-6 text-yellow-500" />
-                  </div>
 
-                  <p className="text-slate-600 mb-6 text-sm leading-relaxed">{bundle.description}</p>
+                <CardContent className="p-8">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-4">{bundle.title}</h3>
 
+                  {/* Bundle Badge */}
                   <div className="mb-6">
-                    <span className="text-3xl font-bold text-purple-600">{bundle.price}</span>
-                    <span className="text-green-600 font-semibold ml-3">Save {bundle.savings}</span>
+                    <Badge
+                      className={`${
+                        bundle.badgeColor === "green"
+                          ? "bg-green-100 text-green-700 border-green-200"
+                          : "bg-purple-100 text-purple-700 border-purple-200"
+                      } border px-3 py-1 text-sm font-medium`}
+                    >
+                      {bundle.badge}
+                    </Badge>
                   </div>
 
-                  <ul className="space-y-3 mb-8">
-                    {bundle.features.map((feature, index) => (
-                      <li key={index} className="flex items-start text-sm">
-                        <Check className="h-4 w-4 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                        <span className="text-slate-600">{feature}</span>
-                      </li>
+                  {/* Services List */}
+                  <div className="space-y-4 mb-8">
+                    {bundle.services.map((service, index) => (
+                      <div key={index} className="flex items-center">
+                        {service.included ? (
+                          <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <Check className="h-4 w-4 text-green-600" />
+                          </div>
+                        ) : (
+                          <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <X className="h-4 w-4 text-red-600" />
+                          </div>
+                        )}
+                        <span
+                          className={`text-base ${service.included ? "text-slate-900" : "text-slate-400 line-through"}`}
+                        >
+                          {service.name}
+                        </span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
 
-                  <Button
-                    className={`w-full py-3 ${
-                      bundle.popular
-                        ? "bg-purple-600 hover:bg-purple-700 text-white"
-                        : "bg-slate-900 hover:bg-slate-800 text-white"
-                    }`}
-                  >
+                  <Button className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white">
                     Get Started
                     <ArrowRight className="h-4 w-4 ml-2" />
                   </Button>

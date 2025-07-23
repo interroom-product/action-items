@@ -16,6 +16,7 @@ interface CheckoutModalProps {
     title: string
     price: string
     features: string[]
+    services?: Array<{ name: string; included: boolean }>
   }
 }
 
@@ -139,17 +140,30 @@ export function CheckoutModal({ isOpen, onClose, service }: CheckoutModalProps) 
 
             <div className="bg-slate-50 p-4 rounded-lg">
               <h4 className="font-semibold text-slate-800 mb-2">What's included:</h4>
-              <ul className="space-y-1">
-                {service.features.slice(0, 3).map((feature, index) => (
-                  <li key={index} className="text-sm text-slate-600 flex items-center">
-                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></span>
-                    {feature}
-                  </li>
-                ))}
-                {service.features.length > 3 && (
-                  <li className="text-sm text-slate-500">+{service.features.length - 3} more features</li>
-                )}
-              </ul>
+              {service.services ? (
+                <ul className="space-y-1">
+                  {service.services
+                    .filter((s) => s.included)
+                    .map((s, index) => (
+                      <li key={index} className="text-sm text-slate-600 flex items-center">
+                        <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></span>
+                        {s.name}
+                      </li>
+                    ))}
+                </ul>
+              ) : (
+                <ul className="space-y-1">
+                  {service.features.slice(0, 3).map((feature, index) => (
+                    <li key={index} className="text-sm text-slate-600 flex items-center">
+                      <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></span>
+                      {feature}
+                    </li>
+                  ))}
+                  {service.features.length > 3 && (
+                    <li className="text-sm text-slate-500">+{service.features.length - 3} more features</li>
+                  )}
+                </ul>
+              )}
             </div>
 
             <Button
