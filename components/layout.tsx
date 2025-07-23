@@ -3,12 +3,15 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import type React from "react"
+import { PremiumSidebarLinks } from "@/components/premium-sidebar-links"
+import { Separator } from "@/components/ui/separator"
 
 interface LayoutProps {
   children: React.ReactNode
 }
 
 export function Layout({ children }: LayoutProps) {
+  const isPremium = true // Mock flag for premium users
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-slate-50 to-white">
       {/* Sidebar */}
@@ -40,6 +43,18 @@ export function Layout({ children }: LayoutProps) {
               </Link>
             ))}
           </div>
+
+          {isPremium && (
+            <>
+              <Separator className="my-4" />
+              <div className="space-y-2">
+                <div className="px-3 py-2">
+                  <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Premium</h3>
+                </div>
+                <PremiumSidebarLinks />
+              </div>
+            </>
+          )}
 
           <div className="mt-auto space-y-2">
             <Link
