@@ -3,12 +3,16 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import type React from "react"
+import { PremiumSidebarLinks } from "@/components/premium-sidebar-links"
+import { Separator } from "@/components/ui/separator"
+import { PremiumServicesCard } from "@/components/premium-services-card"
 
 interface LayoutProps {
   children: React.ReactNode
 }
 
 export function Layout({ children }: LayoutProps) {
+  const isPremium = true // Mock flag for premium users
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-slate-50 to-white">
       {/* Sidebar */}
@@ -21,6 +25,7 @@ export function Layout({ children }: LayoutProps) {
             <span className="text-2xl font-bold text-[#7C3AED]">interRoom</span>
           </div>
 
+          {/* Main Navigation Links */}
           <div className="space-y-1">
             {[
               { href: "/dashboard", icon: Home, label: "Dashboard" },
@@ -41,7 +46,28 @@ export function Layout({ children }: LayoutProps) {
             ))}
           </div>
 
-          <div className="mt-auto space-y-2">
+          {/* Enhanced Visual Separation */}
+          <div className="py-6">
+            <Separator className="mb-6 bg-slate-100" />
+            <PremiumServicesCard />
+          </div>
+
+          {isPremium && (
+            <>
+              <div className="pt-4">
+                <Separator className="mb-4 bg-slate-100" />
+                <div className="space-y-2">
+                  <div className="px-3 py-2">
+                    <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Premium</h3>
+                  </div>
+                  <PremiumSidebarLinks />
+                </div>
+              </div>
+            </>
+          )}
+
+          <div className="mt-auto space-y-2 pt-4">
+            <Separator className="mb-4 bg-slate-100" />
             <Link
               href="/logout"
               className="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-purple-50 hover:text-purple-700 transition-colors"
