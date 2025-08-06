@@ -2,7 +2,6 @@ import { Layout } from "@/components/layout"
 import { ProfileCard } from "@/components/profile-card"
 import { StatisticsCard } from "@/components/statistics-card"
 import { InterviewPipeline } from "@/components/interview-pipeline"
-import { PremiumServicesCard } from "@/components/premium-services-card"
 
 const weeklyData = [
   { week: "Week 1", applications: 5, reachOuts: 10 },
@@ -70,13 +69,6 @@ export default function DashboardPage() {
 
           <div>
             <InterviewPipeline interviews={interviews} />
-          </div>
-        </div>
-
-        {/* Second row with Premium Services Card */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <div>
-            <PremiumServicesCard />
           </div>
         </div>
       </div>
