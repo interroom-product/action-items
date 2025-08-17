@@ -57,25 +57,25 @@ export function ActionItem({
     switch (priority) {
       case "High":
         return (
-          <Badge className="bg-gradient-to-r from-red-500 to-red-600 text-white border-0 font-semibold px-3 py-1.5 text-xs rounded-full shadow-lg shadow-red-500/25 hover:shadow-red-500/40 transition-all duration-200">
+          <Badge className="bg-red-50 text-red-700 border border-red-200 font-medium px-2 py-0.5 text-[10px] rounded-sm">
             High
           </Badge>
         )
       case "Medium":
         return (
-          <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0 font-semibold px-3 py-1.5 text-xs rounded-full shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all duration-200">
+          <Badge className="bg-amber-50 text-amber-700 border border-amber-200 font-medium px-2 py-0.5 text-[10px] rounded-sm">
             Medium
           </Badge>
         )
       case "Low":
         return (
-          <Badge className="bg-gradient-to-r from-emerald-400 to-teal-500 text-white border-0 font-semibold px-3 py-1.5 text-xs rounded-full shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all duration-200">
+          <Badge className="bg-slate-50 text-slate-600 border border-slate-200 font-medium px-2 py-0.5 text-[10px] rounded-sm">
             Low
           </Badge>
         )
       default:
         return (
-          <Badge className="bg-gradient-to-r from-gray-400 to-gray-500 text-white border-0 font-semibold px-3 py-1.5 text-xs rounded-full shadow-lg shadow-gray-500/25 hover:shadow-gray-500/40 transition-all duration-200">
+          <Badge className="bg-gray-50 text-gray-600 border border-gray-200 font-medium px-2 py-0.5 text-[10px] rounded-sm">
             Unknown
           </Badge>
         )
