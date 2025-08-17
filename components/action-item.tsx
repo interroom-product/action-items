@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Trash2, Clock, Calendar, Briefcase, AlertTriangle, Check } from "lucide-react"
+import { Trash2, Clock, Briefcase, Check, GripVertical } from "lucide-react"
 import { useNotifications } from "@/hooks/use-notifications"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 export interface ActionItemProps {
   id: string
   task: string
-  description?: string // Add this line
+  description?: string
   status: "Not Started" | "In Progress" | "Completed" | "Pending"
   dueDate: string
   priority: "Low" | "Medium" | "High"
@@ -25,7 +25,7 @@ export interface ActionItemProps {
 export function ActionItem({
   id,
   task,
-  description, // Add this parameter
+  description,
   status,
   dueDate,
   priority,
@@ -53,13 +53,17 @@ export function ActionItem({
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
       case "High":
-        return <Badge className="bg-red-100 text-red-700 border-red-200 font-medium">High</Badge>
+        return <Badge className="bg-red-100 text-red-700 border-red-200 font-medium px-2 py-1 text-xs">High</Badge>
       case "Medium":
-        return <Badge className="bg-amber-100 text-amber-700 border-amber-200 font-medium">Medium</Badge>
+        return (
+          <Badge className="bg-amber-100 text-amber-700 border-amber-200 font-medium px-2 py-1 text-xs">Medium</Badge>
+        )
       case "Low":
-        return <Badge className="bg-blue-100 text-blue-800 border-blue-200 font-medium">Low</Badge>
+        return <Badge className="bg-blue-100 text-blue-700 border-blue-200 font-medium px-2 py-1 text-xs">Low</Badge>
       default:
-        return <Badge className="bg-slate-100 text-slate-700 border-slate-200 font-medium">Unknown</Badge>
+        return (
+          <Badge className="bg-gray-100 text-gray-700 border-gray-200 font-medium px-2 py-1 text-xs">Unknown</Badge>
+        )
     }
   }
 
@@ -73,34 +77,33 @@ export function ActionItem({
     })
   }
 
-  // For the "Waiting" column, we can highlight the card with a purple background
   const isHighlighted = status === "Pending"
 
   return (
     <div
-      className={`rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group mb-4 border ${
-        isHighlighted
-          ? "bg-gradient-to-br from-purple-25 to-purple-50/30 border-purple-100 hover:border-purple-200"
-          : status === "Completed"
-            ? "bg-gradient-to-br from-slate-25 to-slate-50/30 border-slate-100 hover:border-slate-200"
-            : "bg-white/80 border-slate-100 hover:border-slate-200 hover:bg-white"
-      } hover:scale-[1.01] hover:-translate-y-1`}
+      className={`bg-white rounded-lg p-4 border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer group min-h-[120px] flex flex-col justify-between ${
+        status === "Completed" ? "opacity-75" : ""
+      }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => onClick && onClick(id)}
     >
-      {/* Task content */}
-      <div className="space-y-4">
-        <div className="flex justify-between items-start">
+      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-40 transition-opacity">
+        <GripVertical className="h-4 w-4 text-gray-400" />
+      </div>
+
+      <div className="space-y-3 flex-1">
+        <div className="flex justify-between items-start pr-6">
           <div className="flex-1">
             <h4
-              className={`text-sm font-medium leading-tight ${status === "Completed" ? "text-slate-500" : "text-slate-900"}`}
+              className={`text-sm font-semibold leading-tight ${
+                status === "Completed" ? "text-gray-500 line-through" : "text-gray-900"
+              }`}
             >
               {task}
             </h4>
-            {/* Description preview */}
             {description && (
-              <p className="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">
+              <p className="text-xs text-gray-600 mt-2 line-clamp-2 leading-relaxed hidden group-hover:block">
                 {description
                   .replace(/\*\*(.*?)\*\*/g, "$1")
                   .replace(/\*(.*?)\*/g, "$1")
@@ -110,48 +113,52 @@ export function ActionItem({
               </p>
             )}
           </div>
-          <div className="flex items-center gap-2 transition-opacity">
-            {status !== "Completed" && (
-              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={handleMarkComplete}>
-                <Check className="h-4 w-4" />
-              </Button>
-            )}
-            {onDelete && (
-              <button onClick={handleDelete} className="text-xs text-slate-500 hover:text-red-600 transition-colors">
-                <Trash2 className="h-3 w-3" />
-              </button>
-            )}
-          </div>
         </div>
 
-        {/* Priority badge */}
-        <div className="flex items-center justify-between mt-1">
-          {getPriorityBadge(priority)}
-          {isOverdue && (
-            <div className="flex items-center text-red-600 text-xs">
-              <AlertTriangle className="h-3 w-3 mr-1" />
-              Overdue
+        <div className="flex items-center justify-between text-xs pt-3 border-t border-gray-100 gap-3">
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            {getPriorityBadge(priority)}
+            {relatedApplication && (
+              <div className="flex items-center text-gray-600 min-w-0 bg-gray-50 rounded px-2 py-1">
+                <Briefcase className="h-3 w-3 mr-1 flex-shrink-0" />
+                <span className="truncate max-w-[80px] text-xs">{relatedApplication}</span>
+              </div>
+            )}
+          </div>
+
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <div
+              className={`flex items-center ${isOverdue && status !== "Completed" ? "text-red-600" : "text-gray-500"}`}
+            >
+              <Clock className="h-3 w-3 mr-1" />
+              <span className="whitespace-nowrap text-xs">
+                {isOverdue && status !== "Completed" ? "Overdue " : ""}
+                {formatDate(dueDate)}
+              </span>
             </div>
-          )}
-        </div>
 
-        {/* Company name if available */}
-        {relatedApplication && (
-          <div className="flex items-center text-xs text-slate-600">
-            <Briefcase className="h-3 w-3 mr-1" />
-            <span className="truncate">{relatedApplication}</span>
-          </div>
-        )}
-
-        {/* Dates section */}
-        <div className="flex items-center justify-between text-xs text-slate-400 pt-3 border-t border-slate-50">
-          <div className="flex items-center">
-            <Clock className="h-3 w-3 mr-1" />
-            <span>Due: {formatDate(dueDate)}</span>
-          </div>
-          <div className="flex items-center">
-            <Calendar className="h-3 w-3 mr-1" />
-            <span>Created: {formatDate(createdAt)}</span>
+            <div className={`flex items-center gap-1 transition-opacity ${isHovered ? "opacity-100" : "opacity-0"}`}>
+              {status !== "Completed" && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6 hover:bg-green-50 hover:text-green-600"
+                  onClick={handleMarkComplete}
+                >
+                  <Check className="h-3 w-3" />
+                </Button>
+              )}
+              {onDelete && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6 hover:bg-red-50 hover:text-red-600"
+                  onClick={handleDelete}
+                >
+                  <Trash2 className="h-3 w-3" />
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>

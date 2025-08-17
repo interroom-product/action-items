@@ -66,8 +66,8 @@ export function TaskDetailsModal({ taskId, open, onOpenChange }: TaskDetailsModa
         return "bg-green-100 text-green-800 border-green-200"
       case "In Progress":
         return "bg-blue-100 text-blue-800 border-blue-200"
-      case "Pending": // Corresponds to "Waiting on Feedback"
-        return "bg-purple-100 text-purple-800 border-purple-200"
+      case "Pending": // Updated to use red color for "Blocked" status
+        return "bg-red-100 text-red-800 border-red-200"
       default:
         return "bg-gray-100 text-gray-800 border-gray-200"
     }
@@ -115,7 +115,7 @@ export function TaskDetailsModal({ taskId, open, onOpenChange }: TaskDetailsModa
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Pending">Waiting on Feedback</SelectItem> {/* Updated name */}
+                  <SelectItem value="Pending">Blocked</SelectItem>
                   <SelectItem value="Not Started">To Do</SelectItem>
                   <SelectItem value="In Progress">In Progress</SelectItem>
                   <SelectItem value="Completed">Completed</SelectItem>
@@ -180,11 +180,7 @@ export function TaskDetailsModal({ taskId, open, onOpenChange }: TaskDetailsModa
 
             <div className="flex flex-wrap gap-2">
               <Badge className={getStatusColor(task.status)}>
-                {task.status === "Not Started"
-                  ? "To Do"
-                  : task.status === "Pending"
-                    ? "Waiting on Feedback" // Updated name
-                    : task.status}
+                {task.status === "Not Started" ? "To Do" : task.status === "Pending" ? "Blocked" : task.status}
               </Badge>
               <Badge className={getPriorityColor(task.priority)}>{task.priority} Priority</Badge>
             </div>

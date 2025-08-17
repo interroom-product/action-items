@@ -474,7 +474,7 @@ export default function JobTrackerPage() {
           </div>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="flex gap-2">
+              <Button variant="outline" className="flex gap-2 bg-transparent">
                 <Filter className="h-4 w-4" />
                 <span>Filter</span>
                 {(filters.status || filters.company || filters.position || filters.dateFrom || filters.dateTo) && (
@@ -566,13 +566,13 @@ export default function JobTrackerPage() {
         <Tabs defaultValue="submitted" className="space-y-4" onValueChange={(value) => setActiveTab(value)}>
           <TabsList>
             <TabsTrigger value="submitted">
-              Submitted Applications
+              My Submitted Applications
               <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-600">
                 {filteredApplications.length}
               </span>
             </TabsTrigger>
             <TabsTrigger value="pending">
-              Pending Applications
+              Jobs to Review
               <span className="ml-2 rounded-full bg-purple-100 px-2 py-0.5 text-xs text-purple-600">
                 {filteredPendingApplications.length}
               </span>
@@ -709,7 +709,7 @@ export default function JobTrackerPage() {
                                         </Label>
                                       </div>
                                       <Button className="w-full" onClick={() => handleApply(app)}>
-                                        Move to Submitted Applications
+                                        Move to My Submitted Applications
                                       </Button>
                                     </div>
                                   </DialogContent>
@@ -721,7 +721,7 @@ export default function JobTrackerPage() {
                       ) : (
                         <TableRow>
                           <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
-                            No pending applications found. Try adjusting your search or filters.
+                            No jobs to review found. Try adjusting your search or filters.
                           </TableCell>
                         </TableRow>
                       )}
