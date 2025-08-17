@@ -34,13 +34,13 @@ export function DashboardActionItems() {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "High":
-        return "bg-red-500"
+        return "bg-gradient-to-r from-red-500 to-red-600 shadow-lg shadow-red-500/50 ring-2 ring-red-500/20"
       case "Medium":
-        return "bg-[#F0ECE8]"
+        return "bg-gradient-to-r from-amber-400 to-orange-500 shadow-lg shadow-amber-500/50 ring-2 ring-amber-500/20"
       case "Low":
-        return "bg-[#C8B3FF]"
+        return "bg-gradient-to-r from-emerald-400 to-teal-500 shadow-lg shadow-emerald-500/50 ring-2 ring-emerald-500/20"
       default:
-        return "bg-[#A8A29E]"
+        return "bg-gradient-to-r from-gray-400 to-gray-500 shadow-lg shadow-gray-500/50 ring-2 ring-gray-500/20"
     }
   }
 
@@ -117,7 +117,9 @@ export function DashboardActionItems() {
                 >
                   {/* Priority indicator */}
                   <div className="flex items-start justify-between mb-3">
-                    <div className={`w-2 h-2 rounded-full ${getPriorityColor(item.priority)}`} />
+                    <div
+                      className={`w-3 h-3 rounded-full ${getPriorityColor(item.priority)} transition-all duration-200 hover:scale-110`}
+                    />
                     <button
                       onClick={() => handleComplete(item.id)}
                       className="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-[#A8A29E] hover:text-[#9458FA]"

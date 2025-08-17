@@ -329,8 +329,8 @@ export default function JobTrackerPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-slate-900">Job Tracker</h2>
-            <p className="text-slate-600 mt-1">Track and manage your job applications</p>
+            <h2 className="text-2xl font-bold text-foreground">Job Tracker</h2>
+            <p className="text-muted-foreground mt-1">Track and manage your job applications</p>
           </div>
           <div className="space-x-2">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -567,20 +567,20 @@ export default function JobTrackerPage() {
           <TabsList>
             <TabsTrigger value="submitted">
               My Submitted Applications
-              <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-600">
+              <span className="ml-2 rounded-full bg-blue-100 dark:bg-blue-900 px-2 py-0.5 text-xs text-blue-600 dark:text-blue-300">
                 {filteredApplications.length}
               </span>
             </TabsTrigger>
             <TabsTrigger value="pending">
               Jobs to Review
-              <span className="ml-2 rounded-full bg-purple-100 px-2 py-0.5 text-xs text-purple-600">
+              <span className="ml-2 rounded-full bg-purple-100 dark:bg-purple-900 px-2 py-0.5 text-xs text-purple-600 dark:text-purple-300">
                 {filteredPendingApplications.length}
               </span>
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="submitted">
-            <Card className="bg-gradient-to-br from-purple-50 to-blue-50 border-none shadow-md">
+            <Card className="bg-gradient-to-br from-purple-50/50 to-blue-50/50 dark:from-purple-950/20 dark:to-blue-950/20 border border-border shadow-md">
               <CardHeader>
                 <CardTitle className="text-lg font-semibold">
                   <div className="flex justify-between items-center">
@@ -590,27 +590,29 @@ export default function JobTrackerPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="rounded-md border bg-white">
+                <div className="rounded-md border border-border bg-card">
                   <Table>
                     <TableHeader>
-                      <TableRow>
-                        <TableHead>Company</TableHead>
-                        <TableHead>Position</TableHead>
-                        <TableHead>Location</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Applied Date</TableHead>
-                        <TableHead>Actions</TableHead>
+                      <TableRow className="border-border hover:bg-muted/50">
+                        <TableHead className="text-foreground font-semibold">Company</TableHead>
+                        <TableHead className="text-foreground font-semibold">Position</TableHead>
+                        <TableHead className="text-foreground font-semibold">Location</TableHead>
+                        <TableHead className="text-foreground font-semibold">Status</TableHead>
+                        <TableHead className="text-foreground font-semibold">Applied Date</TableHead>
+                        <TableHead className="text-foreground font-semibold">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {filteredApplications.length > 0 ? (
                         filteredApplications.map((app) => (
-                          <TableRow key={app.id} className="hover:bg-slate-50">
-                            <TableCell className="font-medium">{app.company}</TableCell>
-                            <TableCell>{app.position}</TableCell>
-                            <TableCell>{app.location}</TableCell>
+                          <TableRow key={app.id} className="border-border hover:bg-muted/50 transition-colors">
+                            <TableCell className="font-medium text-foreground">{app.company}</TableCell>
+                            <TableCell className="text-foreground">{app.position}</TableCell>
+                            <TableCell className="text-foreground">{app.location}</TableCell>
                             <TableCell>{getStatusBadge(app.status)}</TableCell>
-                            <TableCell>{new Date(app.appliedDate).toLocaleDateString()}</TableCell>
+                            <TableCell className="text-foreground">
+                              {new Date(app.appliedDate).toLocaleDateString()}
+                            </TableCell>
                             <TableCell>
                               <div className="flex space-x-1">
                                 <Button
@@ -618,6 +620,7 @@ export default function JobTrackerPage() {
                                   size="icon"
                                   onClick={() => openApplicationDetails(app)}
                                   title="View Details"
+                                  className="hover:bg-muted"
                                 >
                                   <Eye className="h-4 w-4" />
                                 </Button>
@@ -627,6 +630,7 @@ export default function JobTrackerPage() {
                                     size="icon"
                                     onClick={() => openJobLink(app.jobLink)}
                                     title="Open Job URL"
+                                    className="hover:bg-muted"
                                   >
                                     <Link2 className="h-4 w-4" />
                                   </Button>
@@ -636,7 +640,7 @@ export default function JobTrackerPage() {
                           </TableRow>
                         ))
                       ) : (
-                        <TableRow>
+                        <TableRow className="border-border">
                           <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
                             No applications found. Try adjusting your search or filters.
                           </TableCell>
@@ -657,30 +661,32 @@ export default function JobTrackerPage() {
           )}
 
           <TabsContent value="pending">
-            <Card className="bg-gradient-to-br from-purple-50 to-blue-50 border-none shadow-md">
+            <Card className="bg-gradient-to-br from-purple-50/50 to-blue-50/50 dark:from-purple-950/20 dark:to-blue-950/20 border border-border shadow-md">
               <CardHeader>
-                <CardTitle className="text-lg font-semibold">Jobs Matched to Your Profile</CardTitle>
+                <CardTitle className="text-lg font-semibold text-foreground">Jobs Matched to Your Profile</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="rounded-md border bg-white">
+                <div className="rounded-md border border-border bg-card">
                   <Table>
                     <TableHeader>
-                      <TableRow>
-                        <TableHead>Company</TableHead>
-                        <TableHead>Position</TableHead>
-                        <TableHead>Location</TableHead>
-                        <TableHead>Application Deadline</TableHead>
-                        <TableHead>Actions</TableHead>
+                      <TableRow className="border-border hover:bg-muted/50">
+                        <TableHead className="text-foreground font-semibold">Company</TableHead>
+                        <TableHead className="text-foreground font-semibold">Position</TableHead>
+                        <TableHead className="text-foreground font-semibold">Location</TableHead>
+                        <TableHead className="text-foreground font-semibold">Application Deadline</TableHead>
+                        <TableHead className="text-foreground font-semibold">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {filteredPendingApplications.length > 0 ? (
                         filteredPendingApplications.map((app) => (
-                          <TableRow key={app.id} className="hover:bg-slate-50">
-                            <TableCell className="font-medium">{app.company}</TableCell>
-                            <TableCell>{app.position}</TableCell>
-                            <TableCell>{app.location}</TableCell>
-                            <TableCell>{new Date(app.deadline).toLocaleDateString()}</TableCell>
+                          <TableRow key={app.id} className="border-border hover:bg-muted/50 transition-colors">
+                            <TableCell className="font-medium text-foreground">{app.company}</TableCell>
+                            <TableCell className="text-foreground">{app.position}</TableCell>
+                            <TableCell className="text-foreground">{app.location}</TableCell>
+                            <TableCell className="text-foreground">
+                              {new Date(app.deadline).toLocaleDateString()}
+                            </TableCell>
                             <TableCell>
                               <div className="flex items-center space-x-2">
                                 <Button
@@ -719,7 +725,7 @@ export default function JobTrackerPage() {
                           </TableRow>
                         ))
                       ) : (
-                        <TableRow>
+                        <TableRow className="border-border">
                           <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
                             No jobs to review found. Try adjusting your search or filters.
                           </TableCell>

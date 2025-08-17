@@ -50,13 +50,13 @@ export function TaskDetailsModal({ taskId, open, onOpenChange }: TaskDetailsModa
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "High":
-        return "bg-red-100 text-red-800 border-red-200"
+        return "bg-gradient-to-r from-red-500 to-red-600 text-white border-0 shadow-lg shadow-red-500/25"
       case "Medium":
-        return "bg-amber-100 text-amber-800 border-amber-200"
+        return "bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0 shadow-lg shadow-amber-500/25"
       case "Low":
-        return "bg-blue-100 text-blue-800 border-blue-200"
+        return "bg-gradient-to-r from-emerald-400 to-teal-500 text-white border-0 shadow-lg shadow-emerald-500/25"
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200"
+        return "bg-gradient-to-r from-gray-400 to-gray-500 text-white border-0 shadow-lg shadow-gray-500/25"
     }
   }
 
@@ -185,7 +185,11 @@ export function TaskDetailsModal({ taskId, open, onOpenChange }: TaskDetailsModa
               <Badge className={getStatusColor(task.status)}>
                 {task.status === "Not Started" ? "To Do" : task.status === "Pending" ? "Blocked" : task.status}
               </Badge>
-              <Badge className={getPriorityColor(task.priority)}>{task.priority} Priority</Badge>
+              <Badge
+                className={`${getPriorityColor(task.priority)} font-semibold px-3 py-1.5 rounded-full transition-all duration-200`}
+              >
+                {task.priority} Priority
+              </Badge>
             </div>
           </div>
         </div>

@@ -56,16 +56,28 @@ export function ActionItem({
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
       case "High":
-        return <Badge className="bg-red-100 text-red-700 border-red-200 font-medium px-2 py-1 text-xs">High</Badge>
+        return (
+          <Badge className="bg-gradient-to-r from-red-500 to-red-600 text-white border-0 font-semibold px-3 py-1.5 text-xs rounded-full shadow-lg shadow-red-500/25 hover:shadow-red-500/40 transition-all duration-200">
+            High
+          </Badge>
+        )
       case "Medium":
         return (
-          <Badge className="bg-amber-100 text-amber-700 border-amber-200 font-medium px-2 py-1 text-xs">Medium</Badge>
+          <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0 font-semibold px-3 py-1.5 text-xs rounded-full shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all duration-200">
+            Medium
+          </Badge>
         )
       case "Low":
-        return <Badge className="bg-blue-100 text-blue-700 border-blue-200 font-medium px-2 py-1 text-xs">Low</Badge>
+        return (
+          <Badge className="bg-gradient-to-r from-emerald-400 to-teal-500 text-white border-0 font-semibold px-3 py-1.5 text-xs rounded-full shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all duration-200">
+            Low
+          </Badge>
+        )
       default:
         return (
-          <Badge className="bg-gray-100 text-gray-700 border-gray-200 font-medium px-2 py-1 text-xs">Unknown</Badge>
+          <Badge className="bg-gradient-to-r from-gray-400 to-gray-500 text-white border-0 font-semibold px-3 py-1.5 text-xs rounded-full shadow-lg shadow-gray-500/25 hover:shadow-gray-500/40 transition-all duration-200">
+            Unknown
+          </Badge>
         )
     }
   }

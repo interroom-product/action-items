@@ -15,10 +15,14 @@ const interviews = []
 export default function DashboardPage() {
   return (
     <Layout>
-      <div className="space-y-8 bg-gray-50 min-h-screen -m-8 p-8">
+      <div className="space-y-8 bg-gray-50 dark:bg-gray-900 min-h-screen -m-8 p-8 transition-colors">
         <div>
-          <h2 className="text-3xl font-bold text-purple-600 mb-2">Welcome back, Ajay!</h2>
-          <p className="text-gray-600">Here's an overview of your job search progress</p>
+          <h2 className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2 transition-colors">
+            Welcome back, Ajay!
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 transition-colors">
+            Here's an overview of your job search progress
+          </p>
         </div>
 
         {/* Top row with Profile and Job Search Progress */}
