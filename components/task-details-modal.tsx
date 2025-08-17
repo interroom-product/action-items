@@ -75,7 +75,7 @@ export function TaskDetailsModal({ taskId, open, onOpenChange }: TaskDetailsModa
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">Task Details</DialogTitle>
         </DialogHeader>
@@ -115,7 +115,7 @@ export function TaskDetailsModal({ taskId, open, onOpenChange }: TaskDetailsModa
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Pending">Pending</SelectItem>
+                  <SelectItem value="Pending">Blocked</SelectItem>
                   <SelectItem value="Not Started">Not Started</SelectItem>
                   <SelectItem value="In Progress">In Progress</SelectItem>
                   <SelectItem value="Completed">Completed</SelectItem>
@@ -160,14 +160,17 @@ export function TaskDetailsModal({ taskId, open, onOpenChange }: TaskDetailsModa
             </div>
           </div>
 
-          {/* Related Application */}
+          {/* Related Company */}
           <div className="space-y-2">
-            <Label htmlFor="relatedApplication">Related Company</Label>
+            <Label htmlFor="relatedApplication" className="text-base font-semibold">
+              Related Company
+            </Label>
             <Input
               id="relatedApplication"
               value={editedTask?.relatedApplication || task.relatedApplication || ""}
               onChange={(e) => setEditedTask({ ...editedTask!, relatedApplication: e.target.value })}
               placeholder="e.g. Google, Amazon"
+              className="text-base"
             />
           </div>
 
@@ -180,7 +183,7 @@ export function TaskDetailsModal({ taskId, open, onOpenChange }: TaskDetailsModa
 
             <div className="flex flex-wrap gap-2">
               <Badge className={getStatusColor(task.status)}>
-                {task.status === "Not Started" ? "To Do" : task.status === "Pending" ? "Pending" : task.status}
+                {task.status === "Not Started" ? "To Do" : task.status === "Pending" ? "Blocked" : task.status}
               </Badge>
               <Badge className={getPriorityColor(task.priority)}>{task.priority} Priority</Badge>
             </div>
