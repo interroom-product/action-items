@@ -92,7 +92,9 @@ export default function DashboardPage() {
           </Card>
         </div>
 
-        <SignalBoosterCard />
+        <div className="max-w-6xl">
+          <SignalBoosterCard />
+        </div>
 
         <div className="max-w-4xl">
           <InterviewPipeline interviews={mockInterviews} />
