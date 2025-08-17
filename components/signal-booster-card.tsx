@@ -2,35 +2,90 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
-import { TrendingUp } from "lucide-react"
+import { ComposedChart, Bar, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { Rocket } from "lucide-react"
 
-// Mock data for the last 30 days
-const chartData = [
-  { date: "Dec 1", applications: 8, reachouts: 1 },
-  { date: "Dec 2", applications: 6, reachouts: 0 },
-  { date: "Dec 3", applications: 12, reachouts: 2 },
-  { date: "Dec 4", applications: 4, reachouts: 0 },
-  { date: "Dec 5", applications: 9, reachouts: 1 },
-  { date: "Dec 6", applications: 15, reachouts: 1 },
-  { date: "Dec 7", applications: 7, reachouts: 0 },
-  { date: "Dec 8", applications: 11, reachouts: 1 },
-  { date: "Dec 9", applications: 5, reachouts: 0 },
-  { date: "Dec 10", applications: 13, reachouts: 1 },
-  { date: "Dec 11", applications: 8, reachouts: 0 },
-  { date: "Dec 12", applications: 10, reachouts: 0 },
-  { date: "Dec 13", applications: 6, reachouts: 0 },
-  { date: "Dec 14", applications: 14, reachouts: 0 },
-  { date: "Dec 15", applications: 9, reachouts: 0 },
+const launchData = [
+  { date: "Nov 4", applications: 75, reachouts: 0, isLaunchDay: true },
+  { date: "Nov 5", applications: 0, reachouts: 1 },
+  { date: "Nov 6", applications: 0, reachouts: 0 },
+  { date: "Nov 7", applications: 0, reachouts: 2 },
+  { date: "Nov 8", applications: 0, reachouts: 0 },
+  { date: "Nov 9", applications: 0, reachouts: 0 },
+  { date: "Nov 10", applications: 0, reachouts: 1 },
+  { date: "Nov 11", applications: 75, reachouts: 0, isLaunchDay: true },
+  { date: "Nov 12", applications: 0, reachouts: 0 },
+  { date: "Nov 13", applications: 0, reachouts: 1 },
+  { date: "Nov 14", applications: 0, reachouts: 0 },
+  { date: "Nov 15", applications: 0, reachouts: 2 },
+  { date: "Nov 16", applications: 0, reachouts: 0 },
+  { date: "Nov 17", applications: 0, reachouts: 0 },
+  { date: "Nov 18", applications: 75, reachouts: 1, isLaunchDay: true },
+  { date: "Nov 19", applications: 0, reachouts: 0 },
+  { date: "Nov 20", applications: 0, reachouts: 1 },
+  { date: "Nov 21", applications: 0, reachouts: 0 },
+  { date: "Nov 22", applications: 0, reachouts: 0 },
+  { date: "Nov 23", applications: 0, reachouts: 2 },
+  { date: "Nov 24", applications: 0, reachouts: 0 },
+  { date: "Nov 25", applications: 75, reachouts: 0, isLaunchDay: true },
+  { date: "Nov 26", applications: 0, reachouts: 1 },
+  { date: "Nov 27", applications: 0, reachouts: 0 },
+  { date: "Nov 28", applications: 0, reachouts: 0 },
+  { date: "Nov 29", applications: 0, reachouts: 1 },
+  { date: "Nov 30", applications: 0, reachouts: 0 },
+  { date: "Dec 1", applications: 0, reachouts: 0 },
+  { date: "Dec 2", applications: 75, reachouts: 0, isLaunchDay: true },
+  { date: "Dec 3", applications: 0, reachouts: 2 },
 ]
 
+const CustomBar = (props: any) => {
+  const { payload, x, y, width, height } = props
+
+  if (payload.isLaunchDay) {
+    return (
+      <g>
+        {/* Background column for launch day */}
+        <rect
+          x={x}
+          y={0}
+          width={width}
+          height={300}
+          fill="#dbeafe"
+          fillOpacity={0.3}
+          stroke="#3b82f6"
+          strokeWidth={1}
+          strokeOpacity={0.2}
+        />
+        {/* Applications text */}
+        <text
+          x={x + width / 2}
+          y={150}
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontSize={12}
+          fontWeight="bold"
+          fill="#1d4ed8"
+        >
+          {payload.applications} Apps
+        </text>
+      </g>
+    )
+  }
+
+  return null
+}
+
 export function SignalBoosterCard() {
+  const totalApplications = launchData.reduce((sum, day) => sum + day.applications, 0)
+  const totalReachouts = launchData.reduce((sum, day) => sum + day.reachouts, 0)
+  const reachoutRate = totalApplications > 0 ? ((totalReachouts / totalApplications) * 100).toFixed(1) : "0.0"
+
   return (
     <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <TrendingUp className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-          The Signal Booster
+          <Rocket className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+          The Launch Pad
         </CardTitle>
         <Select defaultValue="30days">
           <SelectTrigger className="w-[140px] h-8">
@@ -44,27 +99,25 @@ export function SignalBoosterCard() {
         </Select>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Key Statistics */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
             <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Total Applications</p>
-            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">152</p>
+            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{totalApplications}</p>
           </div>
           <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
             <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Total Reachouts</p>
-            <p className="text-2xl font-bold text-green-600 dark:text-green-400">7</p>
+            <p className="text-2xl font-bold text-green-600 dark:text-green-400">{totalReachouts}</p>
           </div>
           <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
             <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Reachout Rate</p>
-            <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">4.6%</p>
+            <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">{reachoutRate}%</p>
           </div>
         </div>
 
-        {/* Chart */}
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart
-              data={chartData}
+              data={launchData}
               margin={{
                 top: 20,
                 right: 30,
@@ -73,8 +126,15 @@ export function SignalBoosterCard() {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-              <XAxis dataKey="date" tick={{ fontSize: 12 }} className="text-gray-600 dark:text-gray-400" />
-              <YAxis tick={{ fontSize: 12 }} className="text-gray-600 dark:text-gray-400" />
+              <XAxis
+                dataKey="date"
+                tick={{ fontSize: 10 }}
+                className="text-gray-600 dark:text-gray-400"
+                angle={-45}
+                textAnchor="end"
+                height={60}
+              />
+              <YAxis tick={{ fontSize: 12 }} className="text-gray-600 dark:text-gray-400" domain={[0, 100]} />
               <Tooltip
                 contentStyle={{
                   backgroundColor: "var(--card)",
@@ -83,31 +143,30 @@ export function SignalBoosterCard() {
                   color: "var(--foreground)",
                 }}
                 labelStyle={{ color: "var(--foreground)" }}
+                formatter={(value, name) => {
+                  if (name === "applications") return [value, "Applications Sent"]
+                  if (name === "reachouts") return [value, "Reachouts Received"]
+                  return [value, name]
+                }}
               />
-              <Legend />
-              <Bar dataKey="applications" fill="#3b82f6" name="Applications Sent" radius={[2, 2, 0, 0]} />
-              <Line
-                type="monotone"
-                dataKey="reachouts"
-                stroke="#10b981"
-                strokeWidth={3}
-                name="Reachouts Received"
-                dot={{ fill: "#10b981", strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, stroke: "#10b981", strokeWidth: 2 }}
-              />
+
+              {/* Custom bars for launch days */}
+              <Bar dataKey="applications" fill="transparent" shape={<CustomBar />} />
+
+              {/* Star markers for reachouts */}
+              <Scatter dataKey="reachouts" fill="#facc15" shape="star" size={100} name="Reachouts" />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
 
-        {/* Additional Insights */}
         <div className="flex flex-col sm:flex-row gap-4 text-sm text-gray-600 dark:text-gray-400">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-blue-600 rounded"></div>
-            <span>Daily applications trending upward</span>
+            <span>Weekly batch application strategy</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-green-600 rounded"></div>
-            <span>Reachout opportunities identified</span>
+            <div className="w-3 h-3 bg-yellow-500 rounded"></div>
+            <span>⭐ Reachout opportunities captured</span>
           </div>
         </div>
       </CardContent>
