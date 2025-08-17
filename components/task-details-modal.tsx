@@ -115,8 +115,8 @@ export function TaskDetailsModal({ taskId, open, onOpenChange }: TaskDetailsModa
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Pending">Blocked</SelectItem>
-                  <SelectItem value="Not Started">To Do</SelectItem>
+                  <SelectItem value="Pending">Pending</SelectItem>
+                  <SelectItem value="Not Started">Not Started</SelectItem>
                   <SelectItem value="In Progress">In Progress</SelectItem>
                   <SelectItem value="Completed">Completed</SelectItem>
                 </SelectContent>
@@ -180,7 +180,7 @@ export function TaskDetailsModal({ taskId, open, onOpenChange }: TaskDetailsModa
 
             <div className="flex flex-wrap gap-2">
               <Badge className={getStatusColor(task.status)}>
-                {task.status === "Not Started" ? "To Do" : task.status === "Pending" ? "Blocked" : task.status}
+                {task.status === "Not Started" ? "To Do" : task.status === "Pending" ? "Pending" : task.status}
               </Badge>
               <Badge className={getPriorityColor(task.priority)}>{task.priority} Priority</Badge>
             </div>

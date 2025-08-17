@@ -28,7 +28,7 @@ export function ActionItemsBoard() {
   )
 
   const columns = {
-    "Waiting on Feedback": filteredItems.filter((item) => item.status === "Pending"),
+    Blocked: filteredItems.filter((item) => item.status === "Pending"),
     "To Do": filteredItems.filter((item) => item.status === "Not Started"),
     "In Progress": filteredItems.filter((item) => item.status === "In Progress"),
     Completed: filteredItems.filter((item) => item.status === "Completed"),
@@ -56,7 +56,7 @@ export function ActionItemsBoard() {
     const statusMap: Record<string, "Not Started" | "In Progress" | "Completed" | "Pending"> = {
       "To Do": "Not Started",
       "In Progress": "In Progress",
-      "Waiting on Feedback": "Pending",
+      Blocked: "Pending",
       Completed: "Completed",
     }
 
@@ -115,7 +115,7 @@ export function ActionItemsBoard() {
               <div className="flex items-center gap-3">
                 <div
                   className={`w-3 h-3 rounded-full ${
-                    columnId === "Waiting on Feedback"
+                    columnId === "Blocked"
                       ? "bg-purple-500"
                       : columnId === "To Do"
                         ? "bg-blue-500"
@@ -128,7 +128,7 @@ export function ActionItemsBoard() {
                 <Badge
                   variant="secondary"
                   className={`text-xs px-2 py-1 rounded-full ${
-                    columnId === "Waiting on Feedback"
+                    columnId === "Blocked"
                       ? "bg-purple-100 text-purple-700"
                       : columnId === "To Do"
                         ? "bg-blue-100 text-blue-700"
@@ -155,7 +155,7 @@ export function ActionItemsBoard() {
                       {items.length === 0 ? (
                         <div
                           className={`border-2 border-dashed rounded-lg p-8 text-center ${
-                            columnId === "Waiting on Feedback"
+                            columnId === "Blocked"
                               ? "border-purple-200"
                               : columnId === "To Do"
                                 ? "border-blue-200"

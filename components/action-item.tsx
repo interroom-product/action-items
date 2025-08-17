@@ -1,9 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
-import { Trash2, Clock, Briefcase, Check, GripVertical } from "lucide-react"
+import { Briefcase, Check, Edit, Trash2 } from "lucide-react"
 import { useNotifications } from "@/hooks/use-notifications"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -36,7 +34,6 @@ export function ActionItem({
   onClick,
 }: ActionItemProps) {
   const { updateActionItem } = useNotifications()
-  const [isHovered, setIsHovered] = useState(false)
 
   const handleMarkComplete = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -47,6 +44,13 @@ export function ActionItem({
     e.stopPropagation()
     if (onDelete) {
       onDelete(id)
+    }
+  }
+
+  const handleEdit = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (onClick) {
+      onClick(id)
     }
   }
 
@@ -67,29 +71,40 @@ export function ActionItem({
     }
   }
 
-  const isOverdue = new Date(dueDate) < new Date() && status !== "Completed"
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    })
-  }
-
   const isHighlighted = status === "Pending"
+  const isDueToday = new Date(dueDate).toDateString() === new Date().toDateString()
+  const isOverdue = new Date(dueDate) < new Date() && !isDueToday
 
   return (
     <div
-      className={`bg-white rounded-lg p-4 border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer group min-h-[120px] flex flex-col justify-between ${
+      className={`bg-white rounded-lg p-4 border border-gray-200 transition-all duration-200 cursor-pointer min-h-[120px] flex flex-col justify-between relative group ${
         status === "Completed" ? "opacity-75" : ""
       }`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       onClick={() => onClick && onClick(id)}
     >
-      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-40 transition-opacity">
-        <GripVertical className="h-4 w-4 text-gray-400" />
+      <div className="absolute inset-0 bg-black/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
+
+      <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={handleEdit}>
+          <Edit className="h-4 w-4 text-gray-600" />
+        </Button>
+      </div>
+
+      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={handleDelete}>
+          <Trash2 className="h-4 w-4 text-gray-600" />
+        </Button>
+      </div>
+
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <Button
+          onClick={handleMarkComplete}
+          className="bg-purple-100 hover:bg-purple-200 text-purple-700 border border-purple-200 px-4 py-2 rounded-lg font-medium"
+          disabled={status === "Completed"}
+        >
+          <Check className="h-4 w-4 mr-2" />
+          Mark done
+        </Button>
       </div>
 
       <div className="space-y-3 flex-1">
@@ -102,22 +117,17 @@ export function ActionItem({
             >
               {task}
             </h4>
-            {description && (
-              <p className="text-xs text-gray-600 mt-2 line-clamp-2 leading-relaxed hidden group-hover:block">
-                {description
-                  .replace(/\*\*(.*?)\*\*/g, "$1")
-                  .replace(/\*(.*?)\*/g, "$1")
-                  .replace(/^[•\d+.]\s/gm, "")
-                  .substring(0, 100)}
-                {description.length > 100 && "..."}
-              </p>
-            )}
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-xs pt-3 border-t border-gray-100 gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pt-3 border-t border-gray-100">
           <div className="flex items-center gap-2 flex-1 min-w-0">
             {getPriorityBadge(priority)}
+            {isOverdue && (
+              <div className="flex items-center text-red-600 text-xs font-medium">
+                <span>Overdue</span>
+              </div>
+            )}
             {relatedApplication && (
               <div className="flex items-center text-gray-600 min-w-0 bg-gray-50 rounded px-2 py-1">
                 <Briefcase className="h-3 w-3 mr-1 flex-shrink-0" />
@@ -125,41 +135,15 @@ export function ActionItem({
               </div>
             )}
           </div>
+        </div>
+      </div>
 
-          <div className="flex items-center gap-3 flex-shrink-0">
-            <div
-              className={`flex items-center ${isOverdue && status !== "Completed" ? "text-red-600" : "text-gray-500"}`}
-            >
-              <Clock className="h-3 w-3 mr-1" />
-              <span className="whitespace-nowrap text-xs">
-                {isOverdue && status !== "Completed" ? "Overdue " : ""}
-                {formatDate(dueDate)}
-              </span>
-            </div>
-
-            <div className={`flex items-center gap-1 transition-opacity ${isHovered ? "opacity-100" : "opacity-0"}`}>
-              {status !== "Completed" && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6 hover:bg-green-50 hover:text-green-600"
-                  onClick={handleMarkComplete}
-                >
-                  <Check className="h-3 w-3" />
-                </Button>
-              )}
-              {onDelete && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6 hover:bg-red-50 hover:text-red-600"
-                  onClick={handleDelete}
-                >
-                  <Trash2 className="h-3 w-3" />
-                </Button>
-              )}
-            </div>
-          </div>
+      <div className="mt-3 space-y-1 text-xs text-gray-500">
+        <div className="flex items-center">
+          <span>Due: {new Date(dueDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+        </div>
+        <div className="flex items-center">
+          <span>Created: {new Date(createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
         </div>
       </div>
     </div>
