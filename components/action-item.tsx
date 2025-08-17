@@ -118,27 +118,26 @@ export function ActionItem({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pt-3 border-t border-gray-100">
-          <div className="flex items-center gap-2 flex-1 min-w-0">
+        {relatedApplication && (
+          <div className="flex items-center mt-3">
+            <Briefcase className="h-4 w-4 text-gray-600 mr-2 flex-shrink-0" />
+            <span className="text-sm font-medium text-gray-900">{relatedApplication}</span>
+          </div>
+        )}
+
+        <div className="space-y-2 pt-3 border-t border-gray-100">
+          <div className="text-xs text-gray-500">
+            <span>Due: {new Date(dueDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+          </div>
+
+          <div className="flex items-center gap-2">
             {getPriorityBadge(priority)}
             {isOverdue && (
               <div className="flex items-center">
                 <AlertTriangle className="h-4 w-4 text-red-600" />
               </div>
             )}
-            {relatedApplication && (
-              <div className="flex items-center text-gray-600 min-w-0 bg-gray-50 rounded px-2 py-1">
-                <Briefcase className="h-3 w-3 mr-1 flex-shrink-0" />
-                <span className="truncate max-w-[80px] text-xs">{relatedApplication}</span>
-              </div>
-            )}
           </div>
-        </div>
-      </div>
-
-      <div className="mt-3 text-xs text-gray-500">
-        <div className="flex items-center">
-          <span>Due: {new Date(dueDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
         </div>
       </div>
     </div>
