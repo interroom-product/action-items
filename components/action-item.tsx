@@ -1,10 +1,9 @@
 "use client"
 
 import type React from "react"
-import { Briefcase, Check, Edit, Trash2 } from "lucide-react"
+import { Briefcase, Check, Edit, Trash2, AlertTriangle } from "lucide-react"
 import { useNotifications } from "@/hooks/use-notifications"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 
 export interface ActionItemProps {
   id: string
@@ -82,29 +81,28 @@ export function ActionItem({
       }`}
       onClick={() => onClick && onClick(id)}
     >
-      <div className="absolute inset-0 bg-black/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
-
-      <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={handleEdit}>
-          <Edit className="h-4 w-4 text-gray-600" />
-        </Button>
-      </div>
-
-      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={handleDelete}>
-          <Trash2 className="h-4 w-4 text-gray-600" />
-        </Button>
-      </div>
-
-      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <Button
-          onClick={handleMarkComplete}
-          className="bg-purple-100 hover:bg-purple-200 text-purple-700 border border-purple-200 px-4 py-2 rounded-lg font-medium"
-          disabled={status === "Completed"}
+      {/* Vertical icon stack - top right */}
+      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col gap-2">
+        <div
+          className="h-6 w-6 rounded-full bg-white/90 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-gray-50 cursor-pointer shadow-sm"
+          onClick={handleEdit}
         >
-          <Check className="h-4 w-4 mr-2" />
-          Mark done
-        </Button>
+          <Edit className="h-3 w-3 text-gray-600" />
+        </div>
+
+        <div
+          className="h-6 w-6 rounded-full bg-purple-100/90 backdrop-blur-sm border border-purple-200 flex items-center justify-center hover:bg-purple-200 cursor-pointer shadow-sm"
+          onClick={handleMarkComplete}
+        >
+          <Check className="h-3 w-3 text-purple-700" />
+        </div>
+
+        <div
+          className="h-6 w-6 rounded-full bg-white/90 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-red-50 cursor-pointer shadow-sm"
+          onClick={handleDelete}
+        >
+          <Trash2 className="h-3 w-3 text-gray-600 hover:text-red-600" />
+        </div>
       </div>
 
       <div className="space-y-3 flex-1">
@@ -124,8 +122,8 @@ export function ActionItem({
           <div className="flex items-center gap-2 flex-1 min-w-0">
             {getPriorityBadge(priority)}
             {isOverdue && (
-              <div className="flex items-center text-red-600 text-xs font-medium">
-                <span>Overdue</span>
+              <div className="flex items-center">
+                <AlertTriangle className="h-4 w-4 text-red-600" />
               </div>
             )}
             {relatedApplication && (
@@ -138,12 +136,9 @@ export function ActionItem({
         </div>
       </div>
 
-      <div className="mt-3 space-y-1 text-xs text-gray-500">
+      <div className="mt-3 text-xs text-gray-500">
         <div className="flex items-center">
           <span>Due: {new Date(dueDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
-        </div>
-        <div className="flex items-center">
-          <span>Created: {new Date(createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
         </div>
       </div>
     </div>
