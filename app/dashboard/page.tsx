@@ -1,3 +1,6 @@
+"use client"
+
+import { useRouter } from "next/navigation"
 import { Layout } from "@/components/layout"
 import { Card, CardContent } from "@/components/ui/card"
 import { InterviewPipeline } from "@/components/interview-pipeline"
@@ -12,24 +15,66 @@ const mockApplicationsNeedingOutreach = [
 
 const mockInterviews = [
   {
+    id: "1",
     company: "Meta",
     position: "Product Manager",
     stage: "Panel Interview" as const,
     progress: 75,
-    date: "Dec 18",
+    date: "2024-01-18",
     time: "2:00 PM",
+    status: "upcoming" as const,
+    applicationId: "1",
   },
   {
+    id: "2",
     company: "Google",
     position: "Senior Product Manager",
     stage: "Phone Screen" as const,
     progress: 25,
-    date: "Dec 20",
+    date: "2024-01-20",
     time: "10:00 AM",
+    status: "upcoming" as const,
+    applicationId: "2",
+  },
+  {
+    id: "3",
+    company: "Apple",
+    position: "Senior PM",
+    stage: "Final Stages" as const,
+    progress: 90,
+    date: "2024-01-15",
+    time: "3:00 PM",
+    status: "past" as const,
+    applicationId: "3",
+  },
+  {
+    id: "4",
+    company: "Netflix",
+    position: "Product Manager",
+    stage: "Hiring Manager" as const,
+    progress: 50,
+    date: "2024-01-12",
+    time: "11:00 AM",
+    status: "past" as const,
+    applicationId: "4",
   },
 ]
 
 export default function DashboardPage() {
+  const router = useRouter()
+
+  const handleJobsToReviewClick = () => {
+    router.push("/job-tracker?tab=pending")
+  }
+
+  const handleAppsThisWeekClick = () => {
+    router.push("/job-tracker?tab=submitted")
+  }
+
+  const handleTasksCompletedClick = () => {
+    router.push("/action-items")
+  }
+
   return (
     <Layout>
       <div className="space-y-8 bg-gray-50 dark:bg-gray-900 min-h-screen -m-8 p-8 transition-colors">
@@ -43,7 +88,10 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+          <Card
+            className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 cursor-pointer hover:shadow-md transition-shadow"
+            onClick={handleJobsToReviewClick}
+          >
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -55,7 +103,10 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+          <Card
+            className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 cursor-pointer hover:shadow-md transition-shadow"
+            onClick={handleAppsThisWeekClick}
+          >
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -67,7 +118,10 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+          <Card
+            className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 cursor-pointer hover:shadow-md transition-shadow"
+            onClick={handleTasksCompletedClick}
+          >
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>

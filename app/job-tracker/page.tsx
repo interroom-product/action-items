@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { Layout } from "@/components/layout"
 import { Plus, ExternalLink, Search, Filter, Eye, Link2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -125,6 +126,7 @@ const initialPendingApplications: PendingApplication[] = [
 ]
 
 export default function JobTrackerPage() {
+  const searchParams = useSearchParams()
   const [applications, setApplications] = useState<Application[]>(initialApplications)
   const [pendingApplications, setPendingApplications] = useState<PendingApplication[]>(initialPendingApplications)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -141,7 +143,7 @@ export default function JobTrackerPage() {
     hasReferral: false,
     interviewPipeline: [...initialInterviewPipeline],
   })
-  const [activeTab, setActiveTab] = useState("submitted")
+  const [activeTab, setActiveTab] = useState(searchParams?.get("tab") || "submitted")
   const [searchQuery, setSearchQuery] = useState("")
   const [filters, setFilters] = useState({
     status: "",
@@ -154,6 +156,13 @@ export default function JobTrackerPage() {
   const [editingData, setEditingData] = useState<Partial<Application>>({})
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null)
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
+
+  useEffect(() => {
+    const tab = searchParams?.get("tab")
+    if (tab && (tab === "submitted" || tab === "pending")) {
+      setActiveTab(tab)
+    }
+  }, [searchParams])
 
   const handlePendingEdit = (id: string, field: keyof PendingApplication, value: string) => {
     setPendingApplications((apps) => apps.map((app) => (app.id === id ? { ...app, [field]: value } : app)))
