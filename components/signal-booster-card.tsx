@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Activity, Eye, Briefcase, CheckSquare, Zap } from "lucide-react"
+import { Activity } from "lucide-react"
 import { useState } from "react"
 
 // Generate activity data for the last 12 weeks (84 days)
@@ -63,13 +63,6 @@ const activityData = generateActivityData()
 export function SignalBoosterCard() {
   const [hoveredDay, setHoveredDay] = useState<any>(null)
 
-  const metrics = [
-    { label: "Jobs to Review", value: "5", icon: Eye, color: "purple" },
-    { label: "Apps This Week", value: "12", icon: Briefcase, color: "blue" },
-    { label: "Tasks Completed", value: "7", icon: CheckSquare, color: "green" },
-    { label: "Networking Streak", value: "3 days", icon: Zap, color: "orange" },
-  ]
-
   const getActivityColor = (level: number) => {
     switch (level) {
       case 0:
@@ -117,37 +110,6 @@ export function SignalBoosterCard() {
         </Select>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {metrics.map((metric, index) => {
-            const Icon = metric.icon
-            const colorClasses = {
-              purple: "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400",
-              blue: "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400",
-              green: "bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400",
-              orange: "bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400",
-            }
-
-            return (
-              <div
-                key={index}
-                className={`text-center p-4 rounded-lg ${colorClasses[metric.color as keyof typeof colorClasses].split(" ").slice(0, 2).join(" ")}`}
-              >
-                <div className="flex items-center justify-center mb-2">
-                  <Icon
-                    className={`h-5 w-5 ${colorClasses[metric.color as keyof typeof colorClasses].split(" ").slice(2).join(" ")}`}
-                  />
-                </div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{metric.label}</p>
-                <p
-                  className={`text-xl font-bold ${colorClasses[metric.color as keyof typeof colorClasses].split(" ").slice(2).join(" ")}`}
-                >
-                  {metric.value}
-                </p>
-              </div>
-            )
-          })}
-        </div>
-
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Activity Heatmap</h3>
