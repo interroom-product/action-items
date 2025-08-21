@@ -186,6 +186,10 @@ export default function JobTrackerPage() {
     setPendingApplications((apps) => apps.filter((app) => app.id !== pendingApp.id))
   }
 
+  const handleNotInterested = (pendingApp: PendingApplication) => {
+    setPendingApplications((apps) => apps.filter((app) => app.id !== pendingApp.id))
+  }
+
   const handleAddApplication = () => {
     if (activeTab === "submitted") {
       const newApp: Application = {
@@ -726,6 +730,40 @@ export default function JobTrackerPage() {
                                       <Button className="w-full" onClick={() => handleApply(app)}>
                                         Move to My Submitted Applications
                                       </Button>
+                                    </div>
+                                  </DialogContent>
+                                </Dialog>
+                                <Dialog>
+                                  <DialogTrigger asChild>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="text-muted-foreground hover:text-red-600"
+                                    >
+                                      Not Interested
+                                    </Button>
+                                  </DialogTrigger>
+                                  <DialogContent>
+                                    <DialogHeader>
+                                      <DialogTitle>Not Interested</DialogTitle>
+                                    </DialogHeader>
+                                    <div className="space-y-4 py-4">
+                                      <p className="text-sm text-muted-foreground">
+                                        Are you sure you want to mark this job as "Not Interested"? This will remove it
+                                        from your jobs to review list.
+                                      </p>
+                                      <div className="flex space-x-2">
+                                        <Button variant="outline" className="flex-1 bg-transparent">
+                                          Cancel
+                                        </Button>
+                                        <Button
+                                          variant="destructive"
+                                          className="flex-1"
+                                          onClick={() => handleNotInterested(app)}
+                                        >
+                                          Remove Job
+                                        </Button>
+                                      </div>
                                     </div>
                                   </DialogContent>
                                 </Dialog>
