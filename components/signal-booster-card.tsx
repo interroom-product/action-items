@@ -96,7 +96,7 @@ export function SignalBoosterCard() {
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <Activity className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-          The Hustle Tracker
+          Growth Grid
         </CardTitle>
         <Select defaultValue="30days">
           <SelectTrigger className="w-[140px] h-8">
